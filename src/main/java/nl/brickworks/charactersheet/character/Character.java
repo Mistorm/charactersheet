@@ -16,9 +16,40 @@ public final class Character {
 	private Gender gender = Gender.unspecified;
 	private String god;
 
-	private Race race = new Race();
+	// Base Attributes, not for external use. Use effective values instead
+	private final Attribute strength;
+	private final Attribute dexterity;
+	private final Attribute constitution;
+	private final Attribute inteligence;
+	private final Attribute wisdom;
+	private final Attribute charisma;
+
+	private Race race;
 
 	private final List<CharacterClass> classes = new ArrayList<CharacterClass>();
+
+	/**
+	 * A character will also need a race and a class besides attribute scores!
+	 * These are not included in this constructor for readability
+	 *
+	 * @param strength
+	 * @param dexterity
+	 * @param constitution
+	 * @param inteligence
+	 * @param wisdom
+	 * @param charisma
+	 */
+	public Character(final Integer strength, final Integer dexterity,
+			final Integer constitution, final Integer inteligence,
+			final Integer wisdom, final Integer charisma) {
+
+		this.strength = new Attribute(strength);
+		this.dexterity = new Attribute(dexterity);
+		this.constitution = new Attribute(constitution);
+		this.inteligence = new Attribute(inteligence);
+		this.wisdom = new Attribute(wisdom);
+		this.charisma = new Attribute(charisma);
+	}
 
 	public String getName() {
 		return name;
@@ -50,6 +81,34 @@ public final class Character {
 
 	public Race getRace() {
 		return race;
+	}
+
+	public List<CharacterClass> getClasses() {
+		return classes;
+	}
+
+	public Attribute getStrength() {
+		return strength;
+	}
+
+	public Attribute getDexterity() {
+		return dexterity;
+	}
+
+	public Attribute getConstitution() {
+		return constitution;
+	}
+
+	public Attribute getInteligence() {
+		return inteligence;
+	}
+
+	public Attribute getWisdom() {
+		return wisdom;
+	}
+
+	public Attribute getCharisma() {
+		return charisma;
 	}
 
 	public void addClass(final CharacterClass characterClass)

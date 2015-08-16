@@ -36,6 +36,7 @@ public class CharacterClass {
 		if (object instanceof CharacterClass) {
 			final CharacterClass otherClass = (CharacterClass) object;
 
+			//TODO: This is too simple. Expand when posible.
 			if (this.name.equals(otherClass.getName())
 					&& (this.level == otherClass.level)) {
 				return true;

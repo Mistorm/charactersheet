@@ -16,7 +16,7 @@ public abstract class Speed {
 		return mode;
 	}
 
-	public void setMode(final Mode mode) {
+	protected void setMode(final Mode mode) {
 		this.mode = mode;
 	}
 
@@ -30,6 +30,14 @@ public abstract class Speed {
 
 	public Integer squaresPerRound() {
 		return footPerRound / SQUARE_SIZE_IN_FOOT;
+	}
+
+	public boolean differentMode(final Speed speed) {
+		if (this.mode.equals(speed.getMode())) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 }
