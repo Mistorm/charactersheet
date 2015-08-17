@@ -3,7 +3,6 @@ package nl.brickworks.charactersheet.characterclass;
 public class CharacterClass {
 
 	private String name;
-	private Integer level;
 	private Boolean prestige;
 
 	public String getName() {
@@ -12,14 +11,6 @@ public class CharacterClass {
 
 	public void setName(final String name) {
 		this.name = name;
-	}
-
-	public Integer getLevel() {
-		return level;
-	}
-
-	public void setLevel(final Integer level) {
-		this.level = level;
 	}
 
 	public Boolean getPrestige() {
@@ -36,9 +27,8 @@ public class CharacterClass {
 		if (object instanceof CharacterClass) {
 			final CharacterClass otherClass = (CharacterClass) object;
 
-			//TODO: This is too simple. Expand when posible.
-			if (this.name.equals(otherClass.getName())
-					&& (this.level == otherClass.level)) {
+			// TODO: This is too simple. Expand when possible.
+			if (this.name.equals(otherClass.getName())) {
 				return true;
 			}
 		}

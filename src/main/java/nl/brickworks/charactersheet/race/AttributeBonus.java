@@ -2,7 +2,7 @@ package nl.brickworks.charactersheet.race;
 
 public class AttributeBonus {
 
-	// Remember: bonuses of the same type don't stack!
+	// Remember: bonuses of the same type don't stack.. Or do they, in this case? The rule book isn't helping us.
 	public enum Type {
 		racial, enchantment, miscellaneousBonus, miscellaneousPenalty
 	}

@@ -1,9 +1,8 @@
 package nl.brickworks.charactersheet.character;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import nl.brickworks.charactersheet.characterclass.CharacterClass;
+import nl.brickworks.charactersheet.Player;
 import nl.brickworks.charactersheet.race.Race;
 
 public final class Character {
@@ -12,9 +11,22 @@ public final class Character {
 		male, female, unspecified
 	}
 
+	public enum Alingment {
+		LawfullGood, NeutralGood, ChaoticGood, LawfullNeutral, TrueNeutral, ChaoticNeutral, LawfullEvil, NeutralEvil, ChaoticEvil
+	}
+
+	private Player player;
+
+	// Most if not all of these values are pure flavor.
 	private String name;
 	private Gender gender = Gender.unspecified;
-	private String god;
+	private String deity;
+	private String height;
+	private String weight;
+	private String looks;
+
+	// Not pure flavor but not that important rule-wise: languages
+	private List<String> languages;
 
 	// Base Attributes, not for external use. Use effective values instead
 	private final Attribute strength;
@@ -26,7 +38,7 @@ public final class Character {
 
 	private Race race;
 
-	private final List<CharacterClass> classes = new ArrayList<CharacterClass>();
+	private LevelController levelController;
 
 	/**
 	 * A character will also need a race and a class besides attribute scores!
@@ -59,12 +71,20 @@ public final class Character {
 		this.name = name;
 	}
 
-	public String getGod() {
-		return god;
+	public Player getPlayer() {
+		return player;
 	}
 
-	public void setGod(final String god) {
-		this.god = god;
+	public void setPlayer(final Player player) {
+		this.player = player;
+	}
+
+	public String getDeity() {
+		return deity;
+	}
+
+	public void setDeity(final String deity) {
+		this.deity = deity;
 	}
 
 	public Gender getGender() {
@@ -81,10 +101,6 @@ public final class Character {
 
 	public Race getRace() {
 		return race;
-	}
-
-	public List<CharacterClass> getClasses() {
-		return classes;
 	}
 
 	public Attribute getStrength() {
@@ -111,42 +127,39 @@ public final class Character {
 		return charisma;
 	}
 
-	public void addClass(final CharacterClass characterClass)
-			throws DuplicateClassException {
-
-		// A character cannot have duplicate classes with the same name.
-		for (final CharacterClass currentClass : classes) {
-			// TODO: am not complete happy with this: think and improve
-			if (currentClass.getName().equals(characterClass.getName())) {
-				throw new DuplicateClassException();
-			}
-		}
-
-		classes.add(characterClass);
+	public String getHeight() {
+		return height;
 	}
 
-	public boolean hasClass(final String className) {
-		for (final CharacterClass currentClass : classes) {
-			if (currentClass.getName().equals(className)) {
-				return true;
-			}
-		}
-
-		// Class not found, return false
-		return false;
+	public void setHeight(final String height) {
+		this.height = height;
 	}
 
-	public CharacterClass fetchClass(final String className)
-			throws CharacterClasssNotFoundException {
+	public String getWeight() {
+		return weight;
+	}
 
-		for (final CharacterClass currentClass : classes) {
-			if (currentClass.getName().equals(className)) {
-				return currentClass;
-			}
-		}
+	public void setWeight(final String weight) {
+		this.weight = weight;
+	}
 
-		// If the code hasn't returned by now, there was no class with the given
-		// name found. Throw an exception.
-		throw new CharacterClasssNotFoundException();
+	public String getLooks() {
+		return looks;
+	}
+
+	public void setLooks(final String looks) {
+		this.looks = looks;
+	}
+
+	public List<String> getLanguages() {
+		return languages;
+	}
+
+	public void setLanguages(final List<String> languages) {
+		this.languages = languages;
+	}
+
+	public int getMaxHitpoints() {
+		return levelController.aggregateHitpoints();
 	}
 }
