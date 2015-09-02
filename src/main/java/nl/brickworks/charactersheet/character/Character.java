@@ -3,6 +3,8 @@ package nl.brickworks.charactersheet.character;
 import java.util.List;
 
 import nl.brickworks.charactersheet.Player;
+import nl.brickworks.charactersheet.characterclass.AttributeName;
+import nl.brickworks.charactersheet.race.AttributeBonus;
 import nl.brickworks.charactersheet.race.Race;
 
 public final class Character {
@@ -28,7 +30,8 @@ public final class Character {
 	// Not pure flavor but not that important rule-wise: languages
 	private List<String> languages;
 
-	// Base Attributes, not for external use. Use effective values instead
+	// Base Attributes without bonuses or modifiers, not for external use. Use
+	// effective values instead
 	private final Attribute strength;
 	private final Attribute dexterity;
 	private final Attribute constitution;
@@ -95,10 +98,16 @@ public final class Character {
 		this.gender = gender;
 	}
 
+	/**
+	 * Set the race and accept the race to visit this Character object to make changes
+	 * @param race
+	 */
 	public void setRace(final Race race) {
 		this.race = race;
+		this.accept(race);
 	}
 
+	//TODO: figure out a way to remove the bonuses set by the visitor
 	public Race getRace() {
 		return race;
 	}
@@ -125,6 +134,33 @@ public final class Character {
 
 	public Attribute getCharisma() {
 		return charisma;
+	}
+
+	public void addAttributeBonus(final AttributeName AttributeName,
+			final AttributeBonus bonus) {
+		switch (AttributeName) {
+		case Strength:
+			this.strength.addBonus(bonus);
+			break;
+		case Dexterity:
+			this.dexterity.addBonus(bonus);
+			break;
+		case Constitution:
+			this.constitution.addBonus(bonus);
+			break;
+		case Intelligence:
+			this.inteligence.addBonus(bonus);
+			break;
+		case Wisdom:
+			this.wisdom.addBonus(bonus);
+			break;
+		case Charisma:
+			this.charisma.addBonus(bonus);
+			break;
+		default:
+			throw new RuntimeException(
+					"Adding an AttributeBonus is not posible for the given AttributeName. Does the attribute excist?");
+		}
 	}
 
 	public String getHeight() {
@@ -157,6 +193,10 @@ public final class Character {
 
 	public void setLanguages(final List<String> languages) {
 		this.languages = languages;
+	}
+
+	public void accept(final CharacterVisitor visitor){
+		visitor.visit(this);
 	}
 
 	public int getMaxHitpoints() {

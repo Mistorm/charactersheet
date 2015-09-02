@@ -4,15 +4,15 @@ public class AttributeBonus {
 
 	// Remember: bonuses of the same type don't stack.. Or do they, in this case? The rule book isn't helping us.
 	public enum Type {
-		racial, enchantment, miscellaneousBonus, miscellaneousPenalty
+		racial, template, enchantment, miscellaneousBonus, miscellaneousPenalty
 	}
 
 	private final Integer value;
 	private final Type type;
 
-	public AttributeBonus(final Integer value, final Type source) {
+	public AttributeBonus(final Integer value, final Type type) {
 		this.value = value;
-		this.type = source;
+		this.type = type;
 	}
 
 	public Integer getValue() {
