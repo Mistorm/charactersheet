@@ -1,9 +1,12 @@
 package nl.brickworks.charactersheet.character;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import nl.brickworks.charactersheet.race.AttributeBonus;
+import nl.brickworks.charactersheet.race.AttributeBonus.Type;
 
 public class Attribute {
 
@@ -25,33 +28,60 @@ public class Attribute {
 	}
 
 	/**
-	 * Returns the computed attribute value
+	 * Returns the computed attribute value, it recomputes the value in case any
+	 * value is changed.
+	 *
 	 * @return
 	 */
 	public Integer getEffectiveValue() {
 		Integer effectiveValue = value;
+
+		final Map<Type, Integer> MaxBonusPerType = new HashMap<Type, Integer>();
+
 		for (final AttributeBonus currentBonus : bonuses) {
-			effectiveValue += currentBonus.getValue();
+
+			if (MaxBonusPerType.containsKey(currentBonus.getType())) {
+
+				if (MaxBonusPerType.get(currentBonus.getType()) < currentBonus
+						.getValue()) {
+					MaxBonusPerType.put(currentBonus.getType(),
+							currentBonus.getValue());
+				}
+			} else {
+				MaxBonusPerType.put(currentBonus.getType(),
+						currentBonus.getValue());
+			}
+
+			for (final Integer value : MaxBonusPerType.values()) {
+				effectiveValue += value;
+			}
 		}
 
 		return effectiveValue;
 	}
 
-	// TODO: Revisit this code: it doens't track bonuses of the same type from
-	// different sources. We need that.
+	/**
+	 * Add the given bonus to this attribute value
+	 *
+	 * @param bonus
+	 */
 	public void addBonus(final AttributeBonus bonus) {
+		bonuses.add(bonus);
+	}
 
-		for (AttributeBonus currentBonus : bonuses) {
-			if (currentBonus.differenType(bonus) == false) {
-				if (currentBonus.getValue() < bonus.getValue()) {
-					currentBonus = bonus;
-				}
-				return;
-			}
+	/**
+	 * Remove the given bonus from this attribute value, return true if the
+	 * bonus is removed, false if nothing changed.
+	 *
+	 * @param bonus
+	 * @return
+	 */
+	public boolean removeBonus(final AttributeBonus bonus) {
+		if (bonuses.contains(bonus)) {
+			bonuses.remove(bonus);
+			return true;
 		}
 
-		// If this code is reached, the type of bonus given isn't used for this
-		// type argument yet and should be added
-		bonuses.add(bonus);
+		return false;
 	}
 }

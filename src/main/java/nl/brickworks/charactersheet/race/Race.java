@@ -9,10 +9,11 @@ import java.util.Set;
 
 import nl.brickworks.charactersheet.character.Character;
 import nl.brickworks.charactersheet.character.CharacterVisitor;
+import nl.brickworks.charactersheet.character.Source;
 import nl.brickworks.charactersheet.characterclass.AttributeName;
 import nl.brickworks.charactersheet.race.AttributeBonus.Type;
 
-public class Race implements CharacterVisitor {
+public class Race extends Source implements CharacterVisitor {
 
 	// These are the common player race sizes
 	public enum Size {
@@ -64,7 +65,7 @@ public class Race implements CharacterVisitor {
 		} else {
 			// All bonuses applied by a race are racial
 			AttributeBonuses.put(attribute, new AttributeBonus(value,
-					Type.racial));
+					Type.racial, this));
 		}
 	}
 
@@ -87,5 +88,4 @@ public class Race implements CharacterVisitor {
 			character.addAttributeBonus(entry.getKey(), entry.getValue());
 		}
 	}
-
 }
