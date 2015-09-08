@@ -4,16 +4,21 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import nl.brickworks.charactersheet.character.Character;
+import nl.brickworks.charactersheet.dao.CharacterDAO;
 
 @Path("/characters")
 public class CharacterController {
 
     @GET
-    @Path("/fetch/{id}")
+    @Path("/{id}")
     @Produces("text/plain")
     public String getCharacter(@PathParam("id") final String id) {
 
-        return "Character " + id + " not found.";
+        CharacterDAO dao = new CharacterDAO();
+        Character character = dao.fetch(id);
+        
+        return "Character " + character.getName() + " fetched from database.";
 
     }
 
