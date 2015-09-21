@@ -1,205 +1,218 @@
 package nl.brickworks.charactersheet.character;
 
 import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 import nl.brickworks.charactersheet.Player;
 import nl.brickworks.charactersheet.characterclass.AttributeName;
 import nl.brickworks.charactersheet.race.AttributeBonus;
 import nl.brickworks.charactersheet.race.Race;
 
-public final class Character {
+@Entity
+public class Character {
 
-	public enum Gender {
-		male, female, unspecified
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
-	public enum Alingment {
-		LawfullGood, NeutralGood, ChaoticGood, LawfullNeutral, TrueNeutral, ChaoticNeutral, LawfullEvil, NeutralEvil, ChaoticEvil
-	}
+    public enum Gender {
 
-	private Player player;
+        male, female, unspecified
+    }
 
-	// Most if not all of these values are pure flavor.
-	private String name;
-	private Gender gender = Gender.unspecified;
-	private String deity;
-	private String height;
-	private String weight;
-	private String looks;
+    public enum Alingment {
 
-	// Not pure flavor but not that important rule-wise: languages
-	private List<String> languages;
+        LawfullGood, NeutralGood, ChaoticGood, LawfullNeutral, TrueNeutral, ChaoticNeutral, LawfullEvil, NeutralEvil, ChaoticEvil
+    }
 
-	// Base Attributes without bonuses or modifiers, not for external use. Use
-	// effective values instead
-	private final Attribute strength;
-	private final Attribute dexterity;
-	private final Attribute constitution;
-	private final Attribute inteligence;
-	private final Attribute wisdom;
-	private final Attribute charisma;
+    private Player player;
 
-	private Race race;
+    // Most if not all of these values are pure flavor.
+    private String name;
+    private Gender gender = Gender.unspecified;
+    private String deity;
+    private String height;
+    private String weight;
+    private String looks;
 
-	private LevelController levelController;
+    // Not pure flavor but not that important rule-wise: languages
+    private List<String> languages;
 
-	/**
-	 * A character will also need a race and a class besides attribute scores!
-	 * These are not included in this constructor for readability
-	 *
-	 * @param strength
-	 * @param dexterity
-	 * @param constitution
-	 * @param inteligence
-	 * @param wisdom
-	 * @param charisma
-	 */
-	public Character(final Integer strength, final Integer dexterity,
-			final Integer constitution, final Integer inteligence,
-			final Integer wisdom, final Integer charisma) {
+    // Base Attributes without bonuses or modifiers, not for external use. Use
+    // effective values instead
+    private final Attribute strength;
+    private final Attribute dexterity;
+    private final Attribute constitution;
+    private final Attribute inteligence;
+    private final Attribute wisdom;
+    private final Attribute charisma;
 
-		this.strength = new Attribute(strength);
-		this.dexterity = new Attribute(dexterity);
-		this.constitution = new Attribute(constitution);
-		this.inteligence = new Attribute(inteligence);
-		this.wisdom = new Attribute(wisdom);
-		this.charisma = new Attribute(charisma);
-	}
+    private Race race;
 
-	public String getName() {
-		return name;
-	}
+    private LevelController levelController;
 
-	public void setName(final String name) {
-		this.name = name;
-	}
+    /**
+     * A character will also need a race and a class besides attribute scores!
+     * These are not included in this constructor for readability
+     *
+     * @param strength
+     * @param dexterity
+     * @param constitution
+     * @param inteligence
+     * @param wisdom
+     * @param charisma
+     */
+    public Character(final Integer strength, final Integer dexterity,
+            final Integer constitution, final Integer inteligence,
+            final Integer wisdom, final Integer charisma) {
 
-	public Player getPlayer() {
-		return player;
-	}
+        this.strength = new Attribute(strength);
+        this.dexterity = new Attribute(dexterity);
+        this.constitution = new Attribute(constitution);
+        this.inteligence = new Attribute(inteligence);
+        this.wisdom = new Attribute(wisdom);
+        this.charisma = new Attribute(charisma);
+    }
 
-	public void setPlayer(final Player player) {
-		this.player = player;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getDeity() {
-		return deity;
-	}
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	public void setDeity(final String deity) {
-		this.deity = deity;
-	}
+    public Player getPlayer() {
+        return player;
+    }
 
-	public Gender getGender() {
-		return gender;
-	}
+    public void setPlayer(final Player player) {
+        this.player = player;
+    }
 
-	public void setGender(final Gender gender) {
-		this.gender = gender;
-	}
+    public String getDeity() {
+        return deity;
+    }
 
-	/**
-	 * Set the race and accept the race to visit this Character object to make changes
-	 * @param race
-	 */
-	public void setRace(final Race race) {
-		this.race = race;
-		this.accept(race);
-	}
+    public void setDeity(final String deity) {
+        this.deity = deity;
+    }
 
-	//TODO: figure out a way to remove the bonuses set by the visitor
-	public Race getRace() {
-		return race;
-	}
+    public Gender getGender() {
+        return gender;
+    }
 
-	public Attribute getStrength() {
-		return strength;
-	}
+    public void setGender(final Gender gender) {
+        this.gender = gender;
+    }
 
-	public Attribute getDexterity() {
-		return dexterity;
-	}
+    /**
+     * Set the race and accept the race to visit this Character object to make
+     * changes
+     *
+     * @param race
+     */
+    public void setRace(final Race race) {
+        this.race = race;
+        this.accept(race);
+    }
 
-	public Attribute getConstitution() {
-		return constitution;
-	}
+    //TODO: figure out a way to remove the bonuses set by the visitor
+    public Race getRace() {
+        return race;
+    }
 
-	public Attribute getInteligence() {
-		return inteligence;
-	}
+    public Attribute getStrength() {
+        return strength;
+    }
 
-	public Attribute getWisdom() {
-		return wisdom;
-	}
+    public Attribute getDexterity() {
+        return dexterity;
+    }
 
-	public Attribute getCharisma() {
-		return charisma;
-	}
+    public Attribute getConstitution() {
+        return constitution;
+    }
 
-	public void addAttributeBonus(final AttributeName AttributeName,
-			final AttributeBonus bonus) {
-		switch (AttributeName) {
-		case Strength:
-			this.strength.addBonus(bonus);
-			break;
-		case Dexterity:
-			this.dexterity.addBonus(bonus);
-			break;
-		case Constitution:
-			this.constitution.addBonus(bonus);
-			break;
-		case Intelligence:
-			this.inteligence.addBonus(bonus);
-			break;
-		case Wisdom:
-			this.wisdom.addBonus(bonus);
-			break;
-		case Charisma:
-			this.charisma.addBonus(bonus);
-			break;
-		default:
-			throw new RuntimeException(
-					"Adding an AttributeBonus is not posible for the given AttributeName. Does the attribute excist?");
-		}
-	}
+    public Attribute getInteligence() {
+        return inteligence;
+    }
 
-	public String getHeight() {
-		return height;
-	}
+    public Attribute getWisdom() {
+        return wisdom;
+    }
 
-	public void setHeight(final String height) {
-		this.height = height;
-	}
+    public Attribute getCharisma() {
+        return charisma;
+    }
 
-	public String getWeight() {
-		return weight;
-	}
+    public void addAttributeBonus(final AttributeName AttributeName,
+            final AttributeBonus bonus) {
+        switch (AttributeName) {
+            case Strength:
+                this.strength.addBonus(bonus);
+                break;
+            case Dexterity:
+                this.dexterity.addBonus(bonus);
+                break;
+            case Constitution:
+                this.constitution.addBonus(bonus);
+                break;
+            case Intelligence:
+                this.inteligence.addBonus(bonus);
+                break;
+            case Wisdom:
+                this.wisdom.addBonus(bonus);
+                break;
+            case Charisma:
+                this.charisma.addBonus(bonus);
+                break;
+            default:
+                throw new RuntimeException(
+                        "Adding an AttributeBonus is not posible for the given AttributeName. Does the attribute excist?");
+        }
+    }
 
-	public void setWeight(final String weight) {
-		this.weight = weight;
-	}
+    public String getHeight() {
+        return height;
+    }
 
-	public String getLooks() {
-		return looks;
-	}
+    public void setHeight(final String height) {
+        this.height = height;
+    }
 
-	public void setLooks(final String looks) {
-		this.looks = looks;
-	}
+    public String getWeight() {
+        return weight;
+    }
 
-	public List<String> getLanguages() {
-		return languages;
-	}
+    public void setWeight(final String weight) {
+        this.weight = weight;
+    }
 
-	public void setLanguages(final List<String> languages) {
-		this.languages = languages;
-	}
+    public String getLooks() {
+        return looks;
+    }
 
-	public void accept(final CharacterVisitor visitor){
-		visitor.visit(this);
-	}
+    public void setLooks(final String looks) {
+        this.looks = looks;
+    }
 
-	public int getMaxHitpoints() {
-		return levelController.aggregateHitpoints();
-	}
+    public List<String> getLanguages() {
+        return languages;
+    }
+
+    public void setLanguages(final List<String> languages) {
+        this.languages = languages;
+    }
+
+    public void accept(final CharacterVisitor visitor) {
+        visitor.visit(this);
+    }
+
+    public int getMaxHitpoints() {
+        return levelController.aggregateHitpoints();
+    }
 }

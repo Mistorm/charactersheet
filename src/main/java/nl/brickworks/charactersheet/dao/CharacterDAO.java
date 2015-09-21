@@ -2,6 +2,9 @@ package nl.brickworks.charactersheet.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import nl.brickworks.charactersheet.character.Character;
 
 /**
@@ -12,6 +15,16 @@ import nl.brickworks.charactersheet.character.Character;
 public class CharacterDAO {
 
     public boolean create(Character character) {
+
+        //EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("nl.brickworks.charactersheet.jpa");
+        //EntityManager entityManager = entityManagerFactory.createEntityManager();
+        //entityManager.getTransaction().begin();
+
+        //entityManager.persist(character);
+
+        //entityManager.getTransaction().commit();
+        //entityManager.close();
+        
         return false;
     }
 

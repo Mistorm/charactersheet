@@ -16,7 +16,9 @@ public class CharacterController {
     public String getCharacter(@PathParam("id") final String id) {
 
         CharacterDAO dao = new CharacterDAO();
+        
         Character character = dao.fetch(id);
+        dao.create(character);
         
         return "Character " + character.getName() + " fetched from database.";
 
